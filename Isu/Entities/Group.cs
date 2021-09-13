@@ -83,11 +83,6 @@ namespace Isu.Entities
                 throw new IsuException("Reached maximum of students!");
             }
 
-            if (_students.Count == 0)
-            {
-                throw new IsuException("There are no students left in this group!");
-            }
-
             return;
         }
     }
