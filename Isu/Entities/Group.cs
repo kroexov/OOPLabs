@@ -5,14 +5,13 @@ namespace Isu.Entities
 {
     public class Group
     {
+        private const int MaxStudentsCount = 30;
         private GroupName _name;
         private List<Student> _students = new List<Student>();
-        private int _studentsCount;
 
         public Group(string name)
         {
             _name = new GroupName(name);
-            _studentsCount = 0;
         }
 
         public string GetName()
@@ -22,7 +21,7 @@ namespace Isu.Entities
 
         public int GetStudentsCount()
         {
-            return _studentsCount;
+            return _students.Count;
         }
 
         public List<Student> GetStudentsList()
@@ -58,7 +57,6 @@ namespace Isu.Entities
 
         public void AddStudent(Student student)
         {
-            _studentsCount++;
             ValidCount();
             _students.Add(student);
         }
@@ -69,7 +67,6 @@ namespace Isu.Entities
             {
                 if (student.GetId() == id)
                 {
-                    _studentsCount--;
                     ValidCount();
                     _students.Remove(student);
                     return;
@@ -81,16 +78,14 @@ namespace Isu.Entities
 
         private void ValidCount()
         {
-            if (_studentsCount > 30)
+            if (_students.Count >= MaxStudentsCount)
             {
-                _studentsCount = 30;
                 throw new IsuException("Reached maximum of students!");
             }
 
-            if (_studentsCount < 0)
+            if (_students.Count == 0)
             {
-                _studentsCount = 0;
-                throw new IsuException("No one to delete!");
+                throw new IsuException("There are no students left in this group!");
             }
 
             return;
