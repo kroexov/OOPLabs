@@ -10,7 +10,10 @@
         {
             _group = group;
             _name = name;
-            _id = GetHashCode();
+            int groupnum = 0;
+            string ending = group.GetName().Substring(2);
+            int.TryParse(ending, out groupnum);
+            _id = (groupnum * 100) + group.GetStudentsCount();
         }
 
         public int GetId()

@@ -20,6 +20,11 @@ namespace Isu.Entities
             return GroupName.GetName();
         }
 
+        public int GetStudentsCount()
+        {
+            return _studentsCount;
+        }
+
         public List<Student> GetStudentsList()
         {
             return _students;
