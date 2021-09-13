@@ -34,7 +34,7 @@ namespace Isu.Services
                 }
             }
 
-            throw new IsuException("Can't find this id");
+            return null;
         }
 
         public Student FindStudent(string name)
@@ -47,7 +47,7 @@ namespace Isu.Services
                 }
             }
 
-            throw new IsuException("Can't find this name");
+            return null;
         }
 
         public List<Student> FindStudents(string groupName)
@@ -60,7 +60,7 @@ namespace Isu.Services
                 }
             }
 
-            throw new IsuException("Can't find this groupName");
+            return null;
         }
 
         public List<Student> FindStudents(CourseNumber courseNumber)
@@ -82,7 +82,7 @@ namespace Isu.Services
                 }
             }
 
-            throw new IsuException("can't find this courseNumber");
+            return null;
         }
 
         public Group FindGroup(string groupName)
@@ -95,7 +95,7 @@ namespace Isu.Services
                 }
             }
 
-            throw new IsuException("can't find this groupName");
+            return null;
         }
 
         public List<Group> FindGroups(CourseNumber courseNumber)
@@ -108,7 +108,7 @@ namespace Isu.Services
                 }
             }
 
-            throw new IsuException("can't find this courseNumber");
+            return null;
         }
 
         public void ChangeStudentGroup(Student student, Group newGroup)
