@@ -8,10 +8,11 @@ namespace Isu.Entities
 
         public GroupName(string groupName)
         {
+            int groupnum = 0;
             const char first = 'M';
             const char second = '3';
             string ending = groupName.Substring(2);
-            bool.TryParse(ending, out bool j);
+            bool j = int.TryParse(ending, out groupnum);
             if (groupName.Length == 5
                 && groupName[0] == first
                 && groupName[1] == second
