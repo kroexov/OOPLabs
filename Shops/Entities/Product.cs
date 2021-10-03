@@ -18,17 +18,17 @@
             _count = count;
         }
 
-        public int Price()
+        public int GetPrice()
         {
             return _price;
         }
 
-        public int Count()
+        public int GetCount()
         {
             return _count;
         }
 
-        public string Name()
+        public string GetName()
         {
             return _name;
         }

@@ -29,7 +29,7 @@ namespace Shops.Tests
             shop.AddProduct(productName, productPrice, productCount);
             shop.Buy(customer,productName,1);
             Assert.AreEqual(shop,_shopsService.FindShop("Magnit"));
-            Assert.AreEqual(product.Name(),shop.GetProduct(product).Name());
+            Assert.AreEqual(product.GetName(),shop.GetProduct(product).GetName());
         }
         
         [Test]
@@ -42,9 +42,9 @@ namespace Shops.Tests
             var product = _shopsService.CreateProduct(productName);
             
             shop.AddProduct(productName, OldPrice, 1);
-            Assert.AreEqual(shop.GetProduct(product).Price(),OldPrice);
+            Assert.AreEqual(shop.GetProduct(product).GetPrice(),OldPrice);
             shop.SetPrice(product, NewPrice);
-            Assert.AreEqual(shop.GetProduct(product).Price(),NewPrice);
+            Assert.AreEqual(shop.GetProduct(product).GetPrice(),NewPrice);
             
         }
         
@@ -88,8 +88,8 @@ namespace Shops.Tests
             shop.AddProduct(productName, productPrice, productCount);
             shop.Buy(customer,productName,productToBuyCount);
             
-            Assert.AreEqual(moneyBefore - productPrice  * productToBuyCount, customer.Money());
-            Assert.AreEqual(productCount - productToBuyCount , shop.GetProduct(product).Count());
+            Assert.AreEqual(moneyBefore - productPrice  * productToBuyCount, customer.GetMoney());
+            Assert.AreEqual(productCount - productToBuyCount , shop.GetProduct(product).GetCount());
             
         }
     }

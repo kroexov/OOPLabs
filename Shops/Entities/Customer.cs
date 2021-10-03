@@ -10,12 +10,12 @@
             _money = money;
         }
 
-        public int Money()
+        public int GetMoney()
         {
             return _money;
         }
 
-        public string Name()
+        public string GetName()
         {
             return _name;
         }

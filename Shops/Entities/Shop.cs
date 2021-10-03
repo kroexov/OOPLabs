@@ -13,7 +13,7 @@ namespace Shops.Entities
             _name = name;
         }
 
-        public string Name()
+        public string GetName()
         {
             return _name;
         }
@@ -28,7 +28,7 @@ namespace Shops.Entities
         {
             foreach (var product in _products)
             {
-                if (product.Name().Equals(name))
+                if (product.GetName().Equals(name))
                 {
                     product.SetCount(count);
                     product.SetPrice(price);
@@ -43,10 +43,10 @@ namespace Shops.Entities
         {
             foreach (var product in _products)
             {
-                if (product.Name() == name && customer.Money() >= product.Price() * count && product.Count() > count)
+                if (product.GetName() == name && customer.GetMoney() >= product.GetPrice() * count && product.GetCount() > count)
                 {
-                    customer.SetMoney(customer.Money() - (product.Price() * count));
-                    product.SetCount(product.Count() - count);
+                    customer.SetMoney(customer.GetMoney() - (product.GetPrice() * count));
+                    product.SetCount(product.GetCount() - count);
                     return;
                 }
             }
@@ -58,7 +58,7 @@ namespace Shops.Entities
         {
             foreach (var newproduct in _products)
             {
-                if (product.Name() == newproduct.Name())
+                if (product.GetName() == newproduct.GetName())
                 {
                     return newproduct;
                 }
@@ -71,7 +71,7 @@ namespace Shops.Entities
         {
             foreach (var newproduct in _products)
             {
-                if (product.Name() == newproduct.Name())
+                if (product.GetName() == newproduct.GetName())
                 {
                     newproduct.SetPrice(newprice);
                 }

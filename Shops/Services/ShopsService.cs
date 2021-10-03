@@ -14,7 +14,7 @@ namespace Shops.Services
         {
             foreach (var shop in _shops)
             {
-                if (shop.Name() == name)
+                if (shop.GetName() == name)
                 {
                     return shop;
                 }
@@ -53,17 +53,17 @@ namespace Shops.Services
 
             foreach (var shop in _shops)
             {
-                if (shop.GetProduct(product).Count() >= count)
+                if (shop.GetProduct(product).GetCount() >= count)
                 {
-                    if (shop.GetProduct(product).Price() * count < maxSumm)
+                    if (shop.GetProduct(product).GetPrice() * count < maxSumm)
                     {
-                        maxSumm = shop.GetProduct(product).Price() * count;
+                        maxSumm = shop.GetProduct(product).GetPrice() * count;
                         bestShop = shop;
                     }
                 }
             }
 
-            if (bestShop.Name().Equals("Null"))
+            if (bestShop.GetName().Equals("Null"))
             {
                 throw new ShopsException("not enough product in any shop");
             }
