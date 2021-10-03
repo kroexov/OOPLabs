@@ -45,7 +45,7 @@ namespace Shops.Services
         public Shop FindCheapestVariant(Product product, int count)
         {
             int maxSumm = 100000000;
-            Shop bestShop = new Shop("Null");
+            Shop bestShop = null;
             if (!_registeredProducts.Contains(product))
             {
                 throw new ShopsException("this product doesn't exist!");
@@ -63,7 +63,7 @@ namespace Shops.Services
                 }
             }
 
-            if (bestShop.GetName().Equals("Null"))
+            if (bestShop.Equals(null))
             {
                 throw new ShopsException("not enough product in any shop");
             }
