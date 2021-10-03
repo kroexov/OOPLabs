@@ -17,7 +17,7 @@ namespace Shops.Tests
         
 
         [Test]
-        public void Test1()
+        public void AddProductsTest()
         {
             int productPrice = 120;
             int productCount = 20;
@@ -33,7 +33,7 @@ namespace Shops.Tests
         }
         
         [Test]
-        public void Test2()
+        public void SetAndChangePriceTest()
         {
             int OldPrice = 1;
             int NewPrice = 2;
@@ -49,7 +49,7 @@ namespace Shops.Tests
         }
         
         [Test]
-        public void Test3()
+        public void FindCheapestVariantTest()
         {
             string Product1 = "sugar";
             var Magnit = _shopsService.Create("Magnit");
@@ -74,7 +74,7 @@ namespace Shops.Tests
         }
         
         [Test]
-        public void Test4()
+        public void BuyBigAmountOfProductsTest()
         {
             int moneyBefore = 200;
             int productPrice = 120;
