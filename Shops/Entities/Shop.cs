@@ -43,7 +43,9 @@ namespace Shops.Entities
         {
             foreach (var product in _products)
             {
-                if (product.GetName() == name && customer.GetMoney() >= product.GetPrice() * count && product.GetCount() > count)
+                if (product.GetName() == name &&
+                    customer.GetMoney() >= product.GetPrice() * count &&
+                    product.GetCount() > count)
                 {
                     customer.SetMoney(customer.GetMoney() - (product.GetPrice() * count));
                     product.SetCount(product.GetCount() - count);
