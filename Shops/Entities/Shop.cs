@@ -8,6 +8,7 @@ namespace Shops.Entities
     {
         private string _name;
         private List<Product> _products = new List<Product>();
+        private KeyValuePair<int, Product> _prices = default(KeyValuePair<int, Product>);
         public Shop(string name)
         {
             _name = name;
@@ -16,6 +17,11 @@ namespace Shops.Entities
         public string GetName()
         {
             return _name;
+        }
+
+        public KeyValuePair<int, Product> GetPrices()
+        {
+            return _prices;
         }
 
         public void RegisterProduct(string name)

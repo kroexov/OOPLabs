@@ -10,6 +10,7 @@ namespace Shops.Services
     {
         private List<Shop> _shops = new List<Shop>();
         private List<Product> _registeredProducts = new List<Product>();
+        private int maxSumm = int.MaxValue;
         public Shop FindShop(string name)
         {
             foreach (var shop in _shops)
@@ -44,7 +45,7 @@ namespace Shops.Services
 
         public Shop FindCheapestVariant(Product product, int count)
         {
-            int maxSumm = 100000000;
+            int minSumm = maxSumm;
             Shop bestShop = null;
             if (!_registeredProducts.Contains(product))
             {
@@ -55,9 +56,9 @@ namespace Shops.Services
             {
                 if (shop.GetProduct(product).GetCount() >= count)
                 {
-                    if (shop.GetProduct(product).GetPrice() * count < maxSumm)
+                    if (shop.GetProduct(product).GetPrice() * count < minSumm)
                     {
-                        maxSumm = shop.GetProduct(product).GetPrice() * count;
+                        minSumm = shop.GetProduct(product).GetPrice() * count;
                         bestShop = shop;
                     }
                 }
