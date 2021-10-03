@@ -64,7 +64,7 @@ namespace Shops.Services
                 }
             }
 
-            if (bestShop.Equals(null))
+            if (minSumm == maxSumm)
             {
                 throw new ShopsException("not enough product in any shop");
             }
