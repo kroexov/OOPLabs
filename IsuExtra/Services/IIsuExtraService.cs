@@ -12,8 +12,8 @@ namespace IsuExtra.Services
 
         Schedule AddPersonalSchedule(Student student);
         Schedule AddOGNPSchedule(OGNPStream stream);
-        Pair AddPair(Schedule schedule, OGNPStream stream, int number, int day, string teacher, int auditory);
-        Pair AddPair(Schedule schedule, int number, int day, string teacher, int auditory);
+        Pair AddPair(Schedule schedule, OGNPStream stream, int number, int day, string teacher, string auditory);
+        Pair AddPair(Schedule schedule, int number, int day, string teacher, string auditory);
         void RemoveStudent(Student student, OGNPStream stream);
         List<Student> NotInOGNP(Group group);
         Schedule GetPersonalSchedule(Student student);

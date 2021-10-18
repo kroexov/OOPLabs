@@ -8,9 +8,9 @@ namespace IsuExtra.Entities
         private int _number;
         private int _day;
         private string _teacher;
-        private int _auditory;
+        private string _auditory;
 
-        public Pair(OGNPStream stream, int number, int day, string teacher, int auditory)
+        public Pair(OGNPStream stream, int number, int day, string teacher, string auditory)
         {
             if (number > 0 && number < 8 && day > 0 && day < 7)
             {
@@ -27,7 +27,7 @@ namespace IsuExtra.Entities
             _auditory = auditory;
         }
 
-        public Pair(int number, int day, string teacher, int auditory)
+        public Pair(int number, int day, string teacher, string auditory)
         {
             if (number > 0 && number < 8 && day > 0 && day < 7)
             {
@@ -91,7 +91,7 @@ namespace IsuExtra.Entities
             }
         }
 
-        public int Auditory
+        public string Auditory
         {
             get
             {

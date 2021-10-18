@@ -63,14 +63,14 @@ namespace IsuExtra.Services
             return newSchedule;
         }
 
-        public Pair AddPair(Schedule schedule, OGNPStream stream, int number, int day, string teacher, int auditory)
+        public Pair AddPair(Schedule schedule, OGNPStream stream, int number, int day, string teacher, string auditory)
         {
             Pair pair = new Pair(stream, number, day, teacher, auditory);
             schedule.AddPair(pair);
             return pair;
         }
 
-        public Pair AddPair(Schedule schedule,  int number, int day, string teacher, int auditory)
+        public Pair AddPair(Schedule schedule,  int number, int day, string teacher, string auditory)
         {
             Pair pair = new Pair(number, day, teacher, auditory);
             schedule.AddPair(pair);
