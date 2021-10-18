@@ -5,7 +5,7 @@ namespace IsuExtra.Services
 {
     public interface IIsuExtraService
     {
-        public Megafacultet AddMegafacultet(string name, char acronym);
+        Megafacultet AddMegafacultet(string name, char acronym);
         void AddStudent(Student student, OGNPStream stream);
         OGNPStream AddStream(int number, int capacity, OGNPCourse course);
         OGNPCourse AddCourse(string name, Megafacultet megafacultet);
