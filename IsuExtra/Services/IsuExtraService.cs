@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Isu.Entities;
 using IsuExtra.Entities;
 using IsuExtra.Tools;
@@ -9,7 +10,7 @@ namespace IsuExtra.Services
     {
         private List<Student> _allOGNPStudents = new List<Student>();
         private List<Megafacultet> _megafacultets = new List<Megafacultet>();
-        private List<(Student, Schedule)> _personalSchedules = new List<(Student, Schedule)>();
+        private List<(string, Schedule)> _groupSchedules = new List<(string, Schedule)>();
 
         public Megafacultet AddMegafacultet(string name, char acronym)
         {
@@ -25,10 +26,34 @@ namespace IsuExtra.Services
                 throw new IsuExtraException("This student tries to choose his own megafacultet!");
             }
 
-            Schedule personalSchedule = GetPersonalSchedule(student);
-            foreach (var pair in stream.GetSchedule().GetPairs())
+            Schedule personalSchedule = new Schedule();
+            foreach (var groupSchedule in _groupSchedules)
             {
-                personalSchedule.AddPair(pair);
+                if (groupSchedule.Item1.Equals(student.GetGroupName()))
+                {
+                    personalSchedule = groupSchedule.Item2;
+                    break;
+                }
+            }
+
+            foreach (var day in stream.GetSchedule().GetDays())
+            {
+                foreach (var personalDay in personalSchedule.GetDays())
+                {
+                    if (day.GetDayNumber().Equals(personalDay.GetDayNumber()))
+                    {
+                        foreach (var pair in day.GetPairs())
+                        {
+                            foreach (var personalPair in personalDay.GetPairs())
+                            {
+                                if (pair.Number.Equals(personalPair.Number))
+                                {
+                                    throw new IsuExtraException("Student has crossing pairs!");
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             _allOGNPStudents.Add(student);
@@ -49,10 +74,10 @@ namespace IsuExtra.Services
             return course;
         }
 
-        public Schedule AddPersonalSchedule(Student student)
+        public Schedule AddGroupSchedule(string group)
         {
             Schedule newSchedule = new Schedule();
-            _personalSchedules.Add((student, newSchedule));
+            _groupSchedules.Add((group, newSchedule));
             return newSchedule;
         }
 
@@ -63,17 +88,17 @@ namespace IsuExtra.Services
             return newSchedule;
         }
 
-        public Pair AddPair(Schedule schedule, OGNPStream stream, int number, int day, string teacher, string auditory)
+        public Pair AddPair(Schedule schedule, OGNPStream stream, int day, int number, DayOfWeek dayOfWeek, string teacher, string auditory)
         {
-            Pair pair = new Pair(stream, number, day, teacher, auditory);
-            schedule.AddPair(pair);
+            Pair pair = new Pair(stream, number, dayOfWeek, teacher, auditory);
+            schedule.AddPair(pair, day);
             return pair;
         }
 
-        public Pair AddPair(Schedule schedule,  int number, int day, string teacher, string auditory)
+        public Pair AddPair(Schedule schedule, int day, int number, DayOfWeek dayOfWeek, string teacher, string auditory)
         {
-            Pair pair = new Pair(number, day, teacher, auditory);
-            schedule.AddPair(pair);
+            Pair pair = new Pair(number, dayOfWeek, teacher, auditory);
+            schedule.AddPair(pair, day);
             return pair;
         }
 
@@ -88,18 +113,6 @@ namespace IsuExtra.Services
             {
                 throw new IsuExtraException("This student isn't found in system!");
             }
-
-            Schedule personalSchedule = GetPersonalSchedule(student);
-            Schedule newSchedule = new Schedule();
-            foreach (var pair in personalSchedule.GetPairs())
-            {
-                if (!pair.Stream.Equals(stream))
-                {
-                    newSchedule.AddPair(pair);
-                }
-            }
-
-            SetPersonalSchedule(student, newSchedule);
 
             stream.GetStudentsList().Remove(student);
             _allOGNPStudents.Remove(student);
@@ -119,32 +132,32 @@ namespace IsuExtra.Services
             return nonOGNP;
         }
 
-        public Schedule GetPersonalSchedule(Student student)
+        public Schedule GetGroupSchedule(string group)
         {
-            foreach (var personalSchedule in _personalSchedules)
+            foreach (var groupSchedule in _groupSchedules)
             {
-                if (personalSchedule.Item1.Equals(student))
+                if (groupSchedule.Item1.Equals(group))
                 {
-                    return personalSchedule.Item2;
+                    return groupSchedule.Item2;
                 }
             }
 
-            throw new IsuExtraException("Didn't find this student!");
+            throw new IsuExtraException("Didn't find this group!");
         }
 
-        public void SetPersonalSchedule(Student student, Schedule schedule)
+        public void SetGroupSchedule(string group, Schedule schedule)
         {
-            foreach (var personalSchedule in _personalSchedules)
+            foreach (var groupSchedule in _groupSchedules)
             {
-                if (personalSchedule.Item1.Equals(student))
+                if (groupSchedule.Item1.Equals(group))
                 {
-                    _personalSchedules.Remove(personalSchedule);
-                    _personalSchedules.Add((student, schedule));
+                    _groupSchedules.Remove(groupSchedule);
+                    _groupSchedules.Add((group, schedule));
                     return;
                 }
             }
 
-            throw new IsuExtraException("Didn't find this student!");
+            throw new IsuExtraException("Didn't find this group!");
         }
     }
 }

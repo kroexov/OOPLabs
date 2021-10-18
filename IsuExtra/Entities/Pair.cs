@@ -1,21 +1,24 @@
-﻿using IsuExtra.Tools;
+﻿using System;
+using IsuExtra.Tools;
 
 namespace IsuExtra.Entities
 {
     public class Pair
     {
+        private int _minNumber = 1;
+        private int _maxNumber = 8;
         private OGNPStream _stream;
         private int _number;
-        private int _day;
+        private DayOfWeek _dayOfWeek;
         private string _teacher;
         private string _auditory;
 
-        public Pair(OGNPStream stream, int number, int day, string teacher, string auditory)
+        public Pair(OGNPStream stream, int number, DayOfWeek day, string teacher, string auditory)
         {
-            if (number > 0 && number < 8 && day > 0 && day < 7)
+            if (number >= _minNumber && number <= _maxNumber)
             {
                 _number = number;
-                _day = day;
+                _dayOfWeek = day;
             }
             else
             {
@@ -27,12 +30,12 @@ namespace IsuExtra.Entities
             _auditory = auditory;
         }
 
-        public Pair(int number, int day, string teacher, string auditory)
+        public Pair(int number, DayOfWeek day, string teacher, string auditory)
         {
-            if (number > 0 && number < 8 && day > 0 && day < 7)
+            if (number >= _minNumber && number <= _maxNumber)
             {
                 _number = number;
-                _day = day;
+                _dayOfWeek = day;
             }
             else
             {
@@ -65,16 +68,16 @@ namespace IsuExtra.Entities
             }
         }
 
-        public int Day
+        public DayOfWeek OfWeekDay
         {
             get
             {
-                return _day;
+                return _dayOfWeek;
             }
 
             set
             {
-                _day = value;
+                _dayOfWeek = value;
             }
         }
 

@@ -30,13 +30,13 @@ namespace IsuExtra.Tests
             Megafacultet Biotech = _isuExtraService.AddMegafacultet("bioengineering", 'B');
             OGNPCourse Wine = _isuExtraService.AddCourse("Wine_techologies", Biotech);
             OGNPStream First = _isuExtraService.AddStream(1, 30, Wine);
-            Schedule personal = _isuExtraService.AddPersonalSchedule(Ilya);
+            Schedule group = _isuExtraService.AddGroupSchedule("M3200");
             Schedule common = _isuExtraService.AddOGNPSchedule(First);
-            Pair personal1 = _isuExtraService.AddPair(personal,2, 1, "Teacher1", "228");
-            Pair personal2 = _isuExtraService.AddPair(personal,  3, 1, "Teacher1", "228");
-            Pair common1 = _isuExtraService.AddPair(common, First, 1, 1, "Teacher2", "212");
+            Pair group1 = _isuExtraService.AddPair(group, 1, 2, DayOfWeek.Monday, "Teacher1", "228");
+            Pair group2 = _isuExtraService.AddPair(group, 1, 3, DayOfWeek.Monday, "Teacher1", "228");
+            Pair common1 = _isuExtraService.AddPair(common, 1, 1, DayOfWeek.Monday, "Teacher2", "212");
             _isuExtraService.AddStudent(Ilya,First);
-            Assert.Contains(common1,personal.GetPairs());
+            Assert.Contains(Ilya,First.GetStudentsList());
             _isuExtraService.RemoveStudent(Ilya,First);
             Assert.Contains(Ilya,_isuExtraService.NotInOGNP(zero));
         }
@@ -48,44 +48,45 @@ namespace IsuExtra.Tests
             //setup
             Group zero = _isuService.AddGroup("M3200");
             Student Ilya = _isuService.AddStudent(zero,"Ilya");
-            Megafacultet Biotech = _isuExtraService.AddMegafacultet("bioengineering", 'B');
+            Megafacultet Biotech = _isuExtraService.AddMegafacultet("Bioengineering", 'B');
             OGNPCourse Wine = _isuExtraService.AddCourse("Wine_techologies", Biotech);
             OGNPStream First = _isuExtraService.AddStream(1, 1, Wine);
             OGNPStream Second = _isuExtraService.AddStream(1, 1, Wine);
-            Schedule IlyaPersonal = _isuExtraService.AddPersonalSchedule(Ilya);
+            Schedule M3200 = _isuExtraService.AddGroupSchedule("M3200");
             Schedule FirstStream = _isuExtraService.AddOGNPSchedule(First);
             Schedule SecondStream = _isuExtraService.AddOGNPSchedule(Second);
-            Pair IlyaPersonal1 = _isuExtraService.AddPair(IlyaPersonal,2, 1, "Teacher1", "228");
-            Pair FirstStream1 = _isuExtraService.AddPair(FirstStream, First, 1, 1, "Teacher2", "212");
-            Pair SecondStream1 = _isuExtraService.AddPair(SecondStream, First, 5, 1, "Teacher2", "212");
-            _isuExtraService.AddStudent(Ilya,Second);
+            Pair M32001 = _isuExtraService.AddPair(M3200, 1, 2, DayOfWeek.Monday, "Teacher1", "228");
+            Pair FirstStream1 = _isuExtraService.AddPair(FirstStream, 1, 1, DayOfWeek.Monday, "Teacher2", "212");
+            Pair SecondStream1 = _isuExtraService.AddPair(SecondStream, 1, 5, DayOfWeek.Monday, "Teacher2", "212");
+            _isuExtraService.AddStudent(Ilya,First);
+            
+            //Stream Is Full
+            Student StreamIsFull = _isuService.AddStudent(zero, "Anton");
+            Assert.Catch<IsuExtraException>(() =>
+            {
+                _isuExtraService.AddStudent(StreamIsFull,First);
+            });
             
             //Same Megafacultet
             Group one = _isuService.AddGroup("B3200");
+            Schedule B3200 = _isuExtraService.AddGroupSchedule("B3200");
+            Pair B32001 = _isuExtraService.AddPair(B3200, 1, 3, DayOfWeek.Monday, "Teacher1", "228");
             Student SameMegafacultet = _isuService.AddStudent(one, "Artem");
-            Schedule ArtemPersonal = _isuExtraService.AddPersonalSchedule(Ilya);
-            Pair ArtemPersonal1 = _isuExtraService.AddPair(ArtemPersonal,4, 1, "Teacher1", "228");
+            Console.WriteLine(Biotech.GetAcronym());
+            Console.WriteLine(SameMegafacultet.GetGroupName());
             Assert.Catch<IsuExtraException>(() =>
             {
                 _isuExtraService.AddStudent(SameMegafacultet,Second);
             });
 
-            //Stream Is Full
-            Student StreamIsFull = _isuService.AddStudent(zero, "Anton");
-            Schedule AntonPersonal = _isuExtraService.AddPersonalSchedule(Ilya);
-            Pair AntonPersonal1 = _isuExtraService.AddPair(AntonPersonal,4, 1, "Teacher1", "228");
-            Assert.Catch<IsuExtraException>(() =>
-            {
-                _isuExtraService.AddStudent(StreamIsFull,First);
-            });
-            
             // There Is Crossed Pairs
-            Student ThereIsCrossedPairs = _isuService.AddStudent(zero, "Andrei");
-            Schedule AndreiPersonal = _isuExtraService.AddPersonalSchedule(Ilya);
-            Pair AndreiPersonal1 = _isuExtraService.AddPair(AndreiPersonal,1, 1, "Teacher1", "228");
+            Group two = _isuService.AddGroup("M3201");
+            Schedule M3201 = _isuExtraService.AddGroupSchedule("M3201");
+            Pair M32011 = _isuExtraService.AddPair(M3201, 1, 5, DayOfWeek.Monday, "Teacher1", "228");
+            Student ThereIsCrossedPairs = _isuService.AddStudent(two, "Andrei");
             Assert.Catch<IsuExtraException>(() =>
             {
-                _isuExtraService.AddStudent(StreamIsFull,First);
+                _isuExtraService.AddStudent(ThereIsCrossedPairs,Second);
             });
             
         }

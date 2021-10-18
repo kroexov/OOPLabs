@@ -7,24 +7,32 @@ namespace IsuExtra.Entities
 {
     public class Schedule
     {
-        private List<Pair> _pairs = new List<Pair>();
+        private List<Day> _days = new List<Day>();
 
-        public void AddPair(Pair newpair)
+        public void AddPair(Pair newPair, int day)
         {
-            foreach (var pair in _pairs)
+            foreach (var curday in _days)
             {
-                if (pair.Day.Equals(newpair.Day) && pair.Number.Equals(newpair.Number))
+                if (curday.GetDayNumber().Equals(day))
                 {
-                    throw new IsuExtraException("You have crossed pairs!!!");
+                    curday.AddPair(newPair);
+                    return;
                 }
             }
 
-            _pairs.Add(newpair);
+            Day newday = new Day(day);
+            newday.AddPair(newPair);
+            _days.Add(newday);
         }
 
-        public List<Pair> GetPairs()
+        public void AddDay(Day newDay)
         {
-            return _pairs;
+            _days.Add(newDay);
+        }
+
+        public List<Day> GetDays()
+        {
+            return _days;
         }
     }
 }
