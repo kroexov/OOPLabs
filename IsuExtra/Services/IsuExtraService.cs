@@ -10,8 +10,6 @@ namespace IsuExtra.Services
     {
         private List<Student> _allOGNPStudents = new List<Student>();
         private List<Megafacultet> _megafacultets = new List<Megafacultet>();
-
-        // private List<(string, Schedule)> _groupSchedules = new List<(string, Schedule)>();
         private Dictionary<string, Schedule> _groupSchedules = new Dictionary<string, Schedule>();
 
         public Megafacultet AddMegafacultet(string name, char acronym)
