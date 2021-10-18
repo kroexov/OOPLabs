@@ -10,7 +10,9 @@ namespace IsuExtra.Services
     {
         private List<Student> _allOGNPStudents = new List<Student>();
         private List<Megafacultet> _megafacultets = new List<Megafacultet>();
-        private List<(string, Schedule)> _groupSchedules = new List<(string, Schedule)>();
+
+        // private List<(string, Schedule)> _groupSchedules = new List<(string, Schedule)>();
+        private Dictionary<string, Schedule> _groupSchedules = new Dictionary<string, Schedule>();
 
         public Megafacultet AddMegafacultet(string name, char acronym)
         {
@@ -29,9 +31,9 @@ namespace IsuExtra.Services
             Schedule personalSchedule = new Schedule();
             foreach (var groupSchedule in _groupSchedules)
             {
-                if (groupSchedule.Item1.Equals(student.GetGroupName()))
+                if (groupSchedule.Key.Equals(student.GetGroupName()))
                 {
-                    personalSchedule = groupSchedule.Item2;
+                    personalSchedule = groupSchedule.Value;
                     break;
                 }
             }
@@ -77,7 +79,7 @@ namespace IsuExtra.Services
         public Schedule AddGroupSchedule(string group)
         {
             Schedule newSchedule = new Schedule();
-            _groupSchedules.Add((group, newSchedule));
+            _groupSchedules.Add(group, newSchedule);
             return newSchedule;
         }
 
@@ -136,9 +138,9 @@ namespace IsuExtra.Services
         {
             foreach (var groupSchedule in _groupSchedules)
             {
-                if (groupSchedule.Item1.Equals(group))
+                if (groupSchedule.Key.Equals(group))
                 {
-                    return groupSchedule.Item2;
+                    return groupSchedule.Value;
                 }
             }
 
@@ -149,10 +151,10 @@ namespace IsuExtra.Services
         {
             foreach (var groupSchedule in _groupSchedules)
             {
-                if (groupSchedule.Item1.Equals(group))
+                if (groupSchedule.Key.Equals(group))
                 {
-                    _groupSchedules.Remove(groupSchedule);
-                    _groupSchedules.Add((group, schedule));
+                    _groupSchedules.Remove(group);
+                    _groupSchedules.Add(group, schedule);
                     return;
                 }
             }
