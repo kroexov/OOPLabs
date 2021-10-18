@@ -10,9 +10,9 @@ namespace Isu.Entities
         {
             int groupnum = 0;
             string ending = groupName.Substring(1);
-            bool isgoodname = int.TryParse(ending, out groupnum);
+            bool isGoodName = int.TryParse(ending, out groupnum);
             if (groupName.Length == 5
-                && isgoodname)
+                && isGoodName)
             {
                 _groupName = groupName;
                 return;

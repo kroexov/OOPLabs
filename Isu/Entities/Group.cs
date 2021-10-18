@@ -67,7 +67,6 @@ namespace Isu.Entities
             {
                 if (student.GetId() == id)
                 {
-                    ValidCount();
                     _students.Remove(student);
                     return;
                 }
