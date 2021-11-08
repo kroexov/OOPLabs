@@ -3,9 +3,9 @@ using Backups.Entities;
 
 namespace Backups.Services
 {
-    public interface IIBackup
+    public interface IBackup
     {
-        BackupJob CreateBackupJob(string name, IIRepository repository);
+        BackupJob CreateBackupJob(string name, IRepository repository);
         BackupJob GetBackupJob(string name);
         Backup CreateBackup(string name);
         JobObject CreateJobObject(string name, BackupJob backupJob);

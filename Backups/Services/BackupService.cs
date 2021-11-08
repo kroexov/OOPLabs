@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Backups.Entities;
 using Backups.Tools;
 
 namespace Backups.Services
 {
-    public class Ibackup : IIBackup
+    public class BackupService : IBackup
     {
         private List<BackupJob> _backupJobs = new List<BackupJob>();
         private List<JobObject> _jobObjects = new List<JobObject>();
-        public BackupJob CreateBackupJob(string name, IIRepository repository)
+        public BackupJob CreateBackupJob(string name, IRepository repository)
         {
             BackupJob backupJob = new BackupJob(name, repository);
             _backupJobs.Add(backupJob);

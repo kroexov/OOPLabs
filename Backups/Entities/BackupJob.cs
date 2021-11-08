@@ -7,15 +7,15 @@ namespace Backups.Entities
 {
     public class BackupJob
     {
-        private string _curDir = Directory.GetCurrentDirectory();
         private string _name;
-        private string _mode = "split";
+        private IBackupMode _backupMode;
         private List<JobObject> _jobObjects = new List<JobObject>();
         private List<RestorePoint> _restorePoints = new List<RestorePoint>();
-        private IIRepository _repository;
+        private IRepository _repository;
 
-        public BackupJob(string name, IIRepository repository)
+        public BackupJob(string name, IRepository repository)
         {
+            _backupMode = new SingleBackupMode();
             _repository = repository;
             _name = name;
         }
@@ -25,14 +25,6 @@ namespace Backups.Entities
             get
             {
                 return _name;
-            }
-        }
-
-        public string Mode
-        {
-            get
-            {
-                return _mode;
             }
         }
 
@@ -52,90 +44,32 @@ namespace Backups.Entities
             }
         }
 
-        public void ChangeMode()
-        {
-            if (_mode.Equals("split"))
-            {
-                _mode = "single";
-                Console.WriteLine("changed mode to single");
-            }
-            else
-            {
-                _mode = "split";
-                Console.WriteLine("changed mode to split");
-            }
-        }
-
         public RestorePoint RunJobObjectsWithoutDirectories()
         {
-            RestorePoint restorePoint = new RestorePoint(DateTime.Now.ToString(), _repository);
-            if (_mode == "split")
-            {
-                foreach (var jobObject in _jobObjects)
-                {
-                    string newStorageName = jobObject.Name + "_" + (_restorePoints.Count + 1).ToString();
-                    Storage newStorage = restorePoint.AddStorage(newStorageName, jobObject.Paths);
-                }
-            }
-
-            if (_mode == "single")
-            {
-                List<string> paths = new List<string>();
-                foreach (var jobObject in _jobObjects)
-                {
-                    foreach (var path in jobObject.Paths)
-                    {
-                        paths.Add(path);
-                    }
-                }
-
-                string newStorageName = _name + "_" + (_restorePoints.Count + 1).ToString();
-                Storage newStorage = restorePoint.AddStorage(newStorageName, paths);
-            }
-
+            RestorePoint restorePoint = _backupMode.RunJobObjectWithoutArchiving(_repository, _jobObjects, _restorePoints.Count);
             _restorePoints.Add(restorePoint);
             return restorePoint;
         }
 
         public RestorePoint RunJobObjects()
         {
-            RestorePoint restorePoint = new RestorePoint(DateTime.Now.ToString(), _repository);
-            string repositoryName = @"\RestorePoint" + (_restorePoints.Count + 1).ToString();
-            Repository rpRepository = _repository.AddRepository(repositoryName);
-            if (_mode == "split")
-            {
-                foreach (var jobObject in _jobObjects)
-                {
-                    string jobRepositoryName = repositoryName.Substring(repositoryName.LastIndexOf(@"\")) + @"\" + jobObject.Name;
-                    Repository jobRepository = _repository.AddRepository(jobRepositoryName);
-                    string newStorageName = jobObject.Name + "_" + (_restorePoints.Count + 1).ToString();
-                    Storage newStorage = restorePoint.AddStorage(newStorageName, jobObject.Paths);
-                    newStorage.Archive(jobRepository.Path);
-                    newStorage.Paths = new List<string>() { jobRepository.Path };
-                }
-            }
-
-            if (_mode == "single")
-            {
-                List<string> paths = new List<string>();
-                foreach (var jobObject in _jobObjects)
-                {
-                    foreach (var path in jobObject.Paths)
-                    {
-                        paths.Add(path);
-                    }
-                }
-
-                string singleStoragePath = _repository.SingleStorage(paths);
-                string newStorageName = _name + "_" + (_restorePoints.Count + 1).ToString();
-                Storage newStorage = restorePoint.AddStorage(newStorageName, paths);
-                newStorage.SingleArchive(rpRepository.Path, singleStoragePath);
-                _repository.DeleteStorage(_curDir + @"\temp");
-                newStorage.Paths = new List<string>() { rpRepository.Path };
-            }
-
+            RestorePoint restorePoint = _backupMode.RunJobObject(_repository, _jobObjects, _restorePoints.Count);
             _restorePoints.Add(restorePoint);
             return restorePoint;
+        }
+
+        public void ChangeMode()
+        {
+            if (_backupMode.GetMode().Equals("Single"))
+            {
+                _backupMode = new SplitBackupMode();
+                Console.WriteLine("Changed mode to split");
+            }
+            else
+            {
+                _backupMode = new SingleBackupMode();
+                Console.WriteLine("Changed mode to single");
+            }
         }
 
         public void AddJobObject(JobObject jobObject)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Backups.Entities;
@@ -12,7 +11,7 @@ namespace Backups
         private static void Main()
         {
             string curDir = Directory.GetCurrentDirectory();
-            IIBackup ibackup = new Ibackup();
+            IBackup ibackup = new BackupService();
             Directory.CreateDirectory(curDir + @"\BackupRoot");
             Directory.CreateDirectory(curDir + @"\A");
             FileInfo atxt = new FileInfo(curDir + @"\A\A.txt");
@@ -24,7 +23,7 @@ namespace Backups
             FileStream bfs = btxt.Create();
             bfs.Write(Encoding.UTF8.GetBytes("I am B.txt"));
             bfs.Close();
-            IIRepository irepository = new IRepository();
+            IRepository irepository = new RepositoryManager();
             Backup mainBackup = ibackup.CreateBackup("mainBackup");
             BackupJob mainBackupJob = ibackup.CreateBackupJob("mainBackupJob", irepository);
             List<string> aPathsList = new List<string>() { curDir + @"\A" };

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Backups.Services;
 
 namespace Backups.Entities
@@ -8,10 +7,10 @@ namespace Backups.Entities
     {
         private string _name;
         private List<string> _paths = new List<string>();
-        private IIArchiver _archiver = new IArchiver();
-        private IIRepository _repository;
+        private IArchiver _archiver = new ArchiverFactory();
+        private IRepository _repository;
 
-        public Storage(string name, List<string> paths, IIRepository repository)
+        public Storage(string name, List<string> paths, IRepository repository)
         {
             _paths = paths;
             _repository = repository;
@@ -42,7 +41,7 @@ namespace Backups.Entities
             }
         }
 
-        public void Archive(string destination)
+        public void Archive(string destination, IRepository repository)
         {
             Archiver archiver = _archiver.CreateArchiver();
             foreach (var path in _paths)
@@ -50,14 +49,14 @@ namespace Backups.Entities
                 _archiver.AddPath(path, archiver);
             }
 
-            _archiver.MakeArchive(archiver, _name, destination);
+            _archiver.MakeArchive(archiver, _name, destination, repository);
         }
 
-        public void SingleArchive(string destination, string singlepath)
+        public void SingleArchive(string destination, string singlepath, IRepository repository)
         {
             Archiver archiver = _archiver.CreateArchiver();
             _archiver.AddPath(singlepath, archiver);
-            _archiver.MakeArchive(archiver, _name, destination);
+            _archiver.MakeArchive(archiver, _name, destination, repository);
         }
     }
 }

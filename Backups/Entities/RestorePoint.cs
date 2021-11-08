@@ -7,9 +7,9 @@ namespace Backups.Entities
     {
         private string _date;
         private List<Storage> _storages = new List<Storage>();
-        private IIRepository _repository;
+        private IRepository _repository;
 
-        public RestorePoint(string date, IIRepository repository)
+        public RestorePoint(string date, IRepository repository)
         {
             _repository = repository;
             _date = date;

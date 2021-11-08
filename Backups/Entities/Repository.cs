@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Backups.Entities
+﻿namespace Backups.Entities
 {
     public class Repository
     {

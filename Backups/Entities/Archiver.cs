@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
+﻿using System.Collections.Generic;
+using Backups.Services;
 
 namespace Backups.Entities
 {
@@ -13,13 +12,13 @@ namespace Backups.Entities
             _paths.Add(path);
         }
 
-        public void MakeArchive(string index, string destination)
+        public void MakeArchive(string index, string destination, IRepository repository)
         {
             foreach (var path in _paths)
             {
                 string name = path.Substring(path.LastIndexOf(@"\")) + index.Substring(index.LastIndexOf("_"));
                 string dest = destination + name + ".zip";
-                ZipFile.CreateFromDirectory(path, dest);
+                repository.AddZipArchive(path, dest);
             }
         }
     }
