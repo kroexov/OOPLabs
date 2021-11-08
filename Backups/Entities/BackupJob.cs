@@ -15,7 +15,7 @@ namespace Backups.Entities
 
         public BackupJob(string name, IRepository repository)
         {
-            _backupMode = new SingleBackupMode();
+            _backupMode = new SplitBackupMode();
             _repository = repository;
             _name = name;
         }
