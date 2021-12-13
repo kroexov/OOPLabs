@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Banks.Tools;
 
 namespace Banks.Entities
 {
@@ -24,11 +25,34 @@ namespace Banks.Entities
             get => _fullname;
         }
 
+        public List<Account> Accounts
+        {
+            get => _accounts;
+        }
+
         public bool Issuspect => _extraData.IsSuspect;
+
+        public Account FindAccount(string id)
+        {
+            foreach (var account in _accounts)
+            {
+                if (account.Id.Equals(id))
+                {
+                    return account;
+                }
+            }
+
+            throw new BanksException("can't find this account!");
+        }
 
         public void AddExtraData(string adress, string passport)
         {
             _extraData = new ClientExtraData(adress, passport);
+        }
+
+        public void AddAccount(Account account)
+        {
+            _accounts.Add(account);
         }
 
         internal void Notification(Account account, string notification)

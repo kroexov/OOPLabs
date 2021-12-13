@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Banks.Tools;
 
 namespace Banks.Entities
 {
@@ -64,6 +65,19 @@ namespace Banks.Entities
         public void AddClient(Client client)
         {
             _clients.Add(client);
+        }
+
+        public Client FindClient(string name)
+        {
+            foreach (var client in _clients)
+            {
+                if (client.Name.Equals(name))
+                {
+                    return client;
+                }
+            }
+
+            throw new BanksException("didn't find this client!");
         }
 
         public void AddAccount(Account account)
