@@ -10,7 +10,6 @@ namespace Banks.Services
     {
         private List<Bank> _banks = new List<Bank>();
         private List<Account> _accounts = new List<Account>();
-        private ConsoleService _consoleService = new ConsoleService();
         private List<Operation> _operations = new List<Operation>();
         private double _maxSuspectedSumm = 0;
         private DateTime _time = default;
@@ -63,33 +62,6 @@ namespace Banks.Services
             var bank = bankBuilder.Build();
             _banks.Add(bank);
             return bank;
-        }
-
-        public void Start()
-        {
-            List<string> options = new List<string>() { "Client", "Bank", "Exit" };
-            var who = _consoleService.OptionsAsking("Choose the type of start", options);
-            switch (who)
-            {
-                case "Client":
-                    ClientStart();
-                    break;
-                case "Bank":
-                    BankStart();
-                    break;
-                case "Exit":
-                    return;
-            }
-        }
-
-        public void ClientStart()
-        {
-            _consoleService.ClientStart(this);
-        }
-
-        public void BankStart()
-        {
-            _consoleService.BankStart(this);
         }
 
         public void SkipTime(TimeSpan timeSpan)
@@ -157,13 +129,6 @@ namespace Banks.Services
             return client;
         }
 
-        public void UnsuspectClient(Client client)
-        {
-            string adress = _consoleService.AskData("What is your address?");
-            string passport = _consoleService.AskData("What is your passport data?");
-            client.AddExtraData(adress, passport);
-        }
-
         public void AddExtraData(Client client, string adress, string passport)
         {
             client.AddExtraData(adress, passport);
@@ -173,7 +138,6 @@ namespace Banks.Services
         {
             account.AddMoney(summ);
             Operation newoperation = new Operation(_operations.Count.ToString(), summ, null, account);
-            _consoleService.WriteMessage("adding " + summ + " to " + account.Client.Name);
             _operations.Add(newoperation);
             return newoperation.ID;
         }
@@ -187,7 +151,6 @@ namespace Banks.Services
             }
 
             Operation newoperation = new Operation(_operations.Count.ToString(), summ, account, null);
-            _consoleService.WriteMessage("withdrawing " + summ + " from " + account.Client.Name);
             _operations.Add(newoperation);
             return newoperation.ID;
         }
@@ -197,7 +160,6 @@ namespace Banks.Services
             from.WithdrawMoney(summ);
 
             to.AddMoney(summ);
-            _consoleService.WriteMessage("transfering " + summ + " from " + from.Client.Name + " to " + to.Client.Name);
             Operation newoperation = new Operation(_operations.Count.ToString(), summ, from, to);
             _operations.Add(newoperation);
             return newoperation.ID;
@@ -215,7 +177,6 @@ namespace Banks.Services
                     }
                     else
                     {
-                        _consoleService.WriteMessage("cancelling operation " + id);
                         operation.IsCancelled = true;
                         operation.Sender.AddMoney(operation.Summ);
                         operation.Reciever.WithdrawMoney(operation.Summ);

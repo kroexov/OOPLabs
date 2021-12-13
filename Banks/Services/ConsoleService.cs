@@ -7,6 +7,23 @@ namespace Banks.Services
 {
     public class ConsoleService
     {
+        public void Start(CentralBank centralBank)
+        {
+            List<string> options = new List<string>() { "Client", "Bank", "Exit" };
+            var who = OptionsAsking("Choose the type of start", options);
+            switch (who)
+            {
+                case "Client":
+                    ClientStart(centralBank);
+                    break;
+                case "Bank":
+                    BankStart(centralBank);
+                    break;
+                case "Exit":
+                    return;
+            }
+        }
+
         public string AskData(string message)
         {
             string returnData = AnsiConsole.Ask<string>("[green]" + message + "[/]");
@@ -83,7 +100,7 @@ namespace Banks.Services
             string adress = AskData("What is your address?");
             string passport = AskData("What is your passport data?");
             centralBank.AddExtraData(myClient, adress, passport);
-            centralBank.ClientStart();
+            ClientStart(centralBank);
         }
 
         public void Operation(CentralBank centralBank)

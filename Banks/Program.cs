@@ -9,7 +9,8 @@ namespace Banks
         private static void Main()
         {
             CentralBank centralBank = new CentralBank();
-            centralBank.Start();
+            ConsoleService consoleService = new ConsoleService();
+            consoleService.Start(centralBank);
         }
     }
 }
