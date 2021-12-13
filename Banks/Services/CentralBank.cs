@@ -83,7 +83,7 @@ namespace Banks.Services
             return depositeAccount;
         }
 
-        public Client RegisterClient(Bank bank)
+        /*public Client RegisterClient(Bank bank)
         {
             IClientBuilder clientBuilder = new ClientBuilder();
             string name = _consoleService.AskData("What is your name?");
@@ -101,7 +101,7 @@ namespace Banks.Services
             Client client = clientBuilder.GetResult();
             bank.AddClient(client);
             return client;
-        }
+        }*/
 
         public Client RegisterClient(string name, Bank bank)
         {

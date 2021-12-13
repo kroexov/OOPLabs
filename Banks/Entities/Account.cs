@@ -60,13 +60,9 @@
             Notify -= _client.Notification;
         }
 
-        public virtual void SkipDay()
-        {
-        }
+        public abstract void SkipDay();
 
-        public virtual void SkipMonth()
-        {
-        }
+        public abstract void SkipMonth();
 
         protected virtual void OnNotify(Account account, string notification)
         {

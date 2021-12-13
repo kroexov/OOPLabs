@@ -8,12 +8,12 @@ namespace Banks.Entities
         private string _fullname;
         private List<Account> _accounts = new List<Account>();
 
-        public Client()
+        private Client()
         {
             _extraData = new ClientExtraData(null, null);
         }
 
-        public Client(string fullname, ClientExtraData extraData)
+        private Client(string fullname, ClientExtraData extraData)
         {
             _fullname = fullname;
             _extraData = extraData;
