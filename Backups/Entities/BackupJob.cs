@@ -42,6 +42,10 @@ namespace Backups.Entities
             {
                 return _restorePoints;
             }
+            set
+            {
+                _restorePoints = value;
+            }
         }
 
         public RestorePoint RunJobObjectsWithoutDirectories()

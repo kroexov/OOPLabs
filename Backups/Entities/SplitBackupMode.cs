@@ -8,7 +8,7 @@ namespace Backups.Entities
     {
         public RestorePoint RunJobObjectWithoutArchiving(IRepository repository, List<JobObject> jobObjects, int restorePointsCount)
         {
-            RestorePoint restorePoint = new RestorePoint(DateTime.Now.ToString(), repository);
+            RestorePoint restorePoint = new RestorePoint(DateTime.Now, repository);
             foreach (var jobObject in jobObjects)
             {
                 string newStorageName = jobObject.Name + "_" + (restorePointsCount + 1).ToString();
@@ -20,7 +20,7 @@ namespace Backups.Entities
 
         public RestorePoint RunJobObject(IRepository repository, List<JobObject> jobObjects, int restorePointsCount)
         {
-            RestorePoint restorePoint = new RestorePoint(DateTime.Now.ToString(), repository);
+            RestorePoint restorePoint = new RestorePoint(DateTime.Now, repository);
             string repositoryName = @"\RestorePoint" + (restorePointsCount + 1).ToString();
             Repository rpRepository = repository.AddRepository(repositoryName);
             foreach (var jobObject in jobObjects)

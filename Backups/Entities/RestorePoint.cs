@@ -1,21 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Backups.Services;
 
 namespace Backups.Entities
 {
     public class RestorePoint
     {
-        private string _date;
+        private DateTime _date;
         private List<Storage> _storages = new List<Storage>();
         private IRepository _repository;
 
-        public RestorePoint(string date, IRepository repository)
+        public RestorePoint(DateTime date, IRepository repository)
         {
             _repository = repository;
             _date = date;
         }
 
-        public string Date
+        public DateTime Date
         {
             get
             {
