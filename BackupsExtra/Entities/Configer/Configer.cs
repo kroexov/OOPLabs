@@ -5,8 +5,7 @@ namespace BackupsExtra.Entities.Configer
 {
     public class Configer
     {
-        private string _path =
-            @"C:\Users\Citilink\Desktop\лабы решотка 1 сем\kroexov\BackupsExtra\Entities\Configer\Config.txt";
+        private string _path = Directory.GetCurrentDirectory() + @"\Config.txt";
 
         public string Path
         {

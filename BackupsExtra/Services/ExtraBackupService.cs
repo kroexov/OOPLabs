@@ -13,7 +13,7 @@ namespace BackupsExtra.Services
         private List<ExtraBackupJob> _extraBackupJobs = new List<ExtraBackupJob>();
         private List<JobObject> _jobObjects = new List<JobObject>();
         private Saver _saver = new Saver();
-        private string _configPath = @"C:\Users\Citilink\Desktop\лабы решотка 1 сем\kroexov\BackupsExtra\Entities\Configer\Config.txt";
+        private string _configPath = Directory.GetCurrentDirectory() + @"\Config.txt";
 
         public ExtraBackupJob GetExtraBackupJob(string name)
         {
