@@ -15,6 +15,10 @@ namespace BackupsExtra.Services
         private Logger _logger;
         private IRepository _repository;
 
+        private ExtraBackupJob()
+        {
+        }
+
         public string Name
         {
             get
